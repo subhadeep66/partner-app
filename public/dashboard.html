@@ -7,6 +7,7 @@
     <h2 class="logo">MyApp</h2>
 
     <ul>
+      <li onclick="showSection('campaigns')">Campaigns</li>
       <li onclick="showSection('addPartner')">Add Partner</li>
       <li onclick="showSection('users')">Users</li>
     </ul>
@@ -29,6 +30,10 @@
       <button onclick="toggleUsers()">Show Users</button>
       <ul id="userList"></ul>
     </div>
+    <div id="campaigns" class="section" style="display:none;">
+     <h2>Campaigns</h2>
+     <p>This is where campaigns will appear</p>
+   </div>
 
   </div>
 
