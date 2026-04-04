@@ -9,7 +9,6 @@ const SECRET = "mysecretkey"; // later move to env
 app.use(express.json());
 app.use(express.static("public"));
 
-let currentUser = null;
 
 // LOGIN
 app.post("/login", (req, res) => {
@@ -36,7 +35,13 @@ app.post("/login", (req, res) => {
 });
 
 function auth(req, res, next) {
-  const token = req.headers.authorization;
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+  return res.status(401).json({ success: false, message: "No token" });
+  }
+
+  const token = authHeader.split(" ")[1]; // extract Bearer token
   console.log("TOKEN RECEIVED:", token);
 
   if (!token) {
@@ -54,26 +59,15 @@ function auth(req, res, next) {
 }
 
 // CHECK AUTH
-app.get("/me", (req, res) => {
-  if (currentUser) {
-    res.json(currentUser);
-  } else {
-    return res.status(401).json({
-  success: false,
-  message: "Not logged in"
-  });
-  }
+app.get("/me", auth, (req, res) => {
+  res.json(req.user);
 });
 
 // ADD PARTNER (only admin)
 app.post("/add-partner", auth, (req, res) => {
   if (req.user.role !== "admin") {
-   return res.status(403).json({ success: false, message: "Only admin allowed" });
-  }
-  if (!currentUser || currentUser.role !== "admin") {
-    return res.status(403).json({ success: false, message: "Unauthorized" });
-  }
-
+  return res.status(403).json({ success: false, message: "Only admin allowed" });
+  } 
   const { username, password } = req.body;
 
   const users = JSON.parse(fs.readFileSync("users.json"));

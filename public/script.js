@@ -25,7 +25,7 @@ function addPartner() {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": localStorage.getItem("token")
+      "Authorization": "Bearer " + localStorage.getItem("token")
     },
     body: JSON.stringify({
       username: document.getElementById("newUser").value,
