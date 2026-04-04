@@ -11,6 +11,7 @@ function login() {
   .then(res => res.json())
   .then(data => {
     if (data.success) {
+      localStorage.setItem("token", data.token);
       window.location.href = "/dashboard.html";
     } else {
       alert("Invalid login");
@@ -22,7 +23,10 @@ function login() {
 function addPartner() {
   fetch("/add-partner", {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": localStorage.getItem("token")
+    },
     body: JSON.stringify({
       username: document.getElementById("newUser").value,
       password: document.getElementById("newPass").value

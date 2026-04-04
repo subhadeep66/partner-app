@@ -1,6 +1,10 @@
 const express = require("express");
 const fs = require("fs");
 const app = express();
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+
+const SECRET = "mysecretkey"; // later move to env
 
 app.use(express.json());
 app.use(express.static("public"));
@@ -13,17 +17,37 @@ app.post("/login", (req, res) => {
 
   const users = JSON.parse(fs.readFileSync("users.json"));
 
-  const user = users.find(
-    u => u.username === username && u.password === password
+  const user = users.find(u => u.username === username);
+
+  if (!user) return res.json({ success: false });
+
+  const isMatch = password === user.password; // simple for now
+
+  if (!isMatch) return res.json({ success: false });
+
+  // create token
+  const token = jwt.sign(
+    { username: user.username, role: user.role },
+    SECRET,
+    { expiresIn: "1h" }
   );
 
-  if (user) {
-    currentUser = user;
-    res.json({ success: true, role: user.role });
-  } else {
-    res.json({ success: false });
-  }
+  res.json({ success: true, token });
 });
+
+function auth(req, res, next) {
+  const token = req.headers["authorization"];
+
+  if (!token) return res.status(401).send("No token");
+
+  try {
+    const decoded = jwt.verify(token, SECRET);
+    req.user = decoded;
+    next();
+  } catch {
+    res.status(401).send("Invalid token");
+  }
+}
 
 // CHECK AUTH
 app.get("/me", (req, res) => {
@@ -35,7 +59,10 @@ app.get("/me", (req, res) => {
 });
 
 // ADD PARTNER (only admin)
-app.post("/add-partner", (req, res) => {
+app.post("/add-partner", auth, (req, res) => {
+  if (req.user.role !== "admin") {
+  return res.status(403).send("Only admin allowed");
+  }
   if (!currentUser || currentUser.role !== "admin") {
     return res.status(403).send("Unauthorized");
   }
