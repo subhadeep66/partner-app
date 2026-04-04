@@ -48,7 +48,8 @@ function auth(req, res, next) {
     req.user = decoded;
     next();
   } catch (err) {
-    return res.status(401).json({ success: false, message: "Invalid token" });
+  console.log("JWT ERROR:", err.message); // 👈 add this
+  return res.status(401).json({ success: false, message: "Invalid token" });
   }
 }
 
