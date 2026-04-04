@@ -1,17 +1,37 @@
 <link rel="stylesheet" href="style.css">
 
-<div class="dashboard">
-  <h2>Dashboard</h2>
+<div class="app">
 
-  <h3>Add Partner</h3>
-  <input id="newUser" placeholder="Username">
-  <input id="newPass" placeholder="Password">
-  <button onclick="addPartner()">Add</button>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2 class="logo">MyApp</h2>
 
-  <h3>User List</h3>
-  <button onclick="toggleUsers()">Show Users</button>
+    <ul>
+      <li onclick="showSection('addPartner')">Add Partner</li>
+      <li onclick="showSection('users')">Users</li>
+    </ul>
+  </div>
 
-  <ul id="userList"></ul>
+  <!-- MAIN CONTENT -->
+  <div class="main">
+
+    <!-- ADD PARTNER SECTION -->
+    <div id="addPartner" class="section">
+      <h2>Add Partner</h2>
+      <input id="newUser" placeholder="Username">
+      <input id="newPass" placeholder="Password">
+      <button onclick="addPartner()">Add</button>
+    </div>
+
+    <!-- USERS SECTION -->
+    <div id="users" class="section" style="display:none;">
+      <h2>User List</h2>
+      <button onclick="toggleUsers()">Show Users</button>
+      <ul id="userList"></ul>
+    </div>
+
+  </div>
+
 </div>
 
 <script src="script.js"></script>

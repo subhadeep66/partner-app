@@ -76,3 +76,10 @@ function toggleUsers() {
     event.target.innerText = "Show Users";
   }
 }
+function showSection(sectionId) {
+  document.querySelectorAll(".section").forEach(sec => {
+    sec.style.display = "none";
+  });
+
+  document.getElementById(sectionId).style.display = "block";
+}
