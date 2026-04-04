@@ -95,8 +95,8 @@ function addApp() {
   fetch("/add-app", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": localStorage.getItem("token")
+     "Content-Type": "application/json",
+     "Authorization": localStorage.getItem("token") || ""
     },
     body: JSON.stringify({
       name: document.getElementById("appName").value,
