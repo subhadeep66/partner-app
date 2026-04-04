@@ -61,6 +61,18 @@ function loadUsers() {
     });
 }
 
-if (window.location.pathname.includes("dashboard")) {
-  loadUsers();
+let usersVisible = false;
+
+function toggleUsers() {
+  const list = document.getElementById("userList");
+
+  if (!usersVisible) {
+    loadUsers();
+    usersVisible = true;
+    event.target.innerText = "Hide Users";
+  } else {
+    list.innerHTML = "";
+    usersVisible = false;
+    event.target.innerText = "Show Users";
+  }
 }

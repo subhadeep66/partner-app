@@ -1,11 +1,17 @@
-<h2>Dashboard</h2>
+<link rel="stylesheet" href="style.css">
 
-<h3>Add Partner</h3>
-<input id="newUser" placeholder="Username">
-<input id="newPass" placeholder="Password">
-<button onclick="addPartner()">Add</button>
+<div class="dashboard">
+  <h2>Dashboard</h2>
 
-<h3>User List</h3>
-<ul id="userList"></ul>
+  <h3>Add Partner</h3>
+  <input id="newUser" placeholder="Username">
+  <input id="newPass" placeholder="Password">
+  <button onclick="addPartner()">Add</button>
+
+  <h3>User List</h3>
+  <button onclick="toggleUsers()">Show Users</button>
+
+  <ul id="userList"></ul>
+</div>
 
 <script src="script.js"></script>

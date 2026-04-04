@@ -1,0 +1,73 @@
+/* RESET */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+}
+
+/* CENTER CONTAINER (LOGIN) */
+.container {
+  width: 300px;
+  margin: 100px auto;
+  padding: 25px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+/* DASHBOARD CONTAINER */
+.dashboard {
+  width: 600px;
+  margin: 50px auto;
+  padding: 25px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+/* HEADINGS */
+h2 {
+  margin-bottom: 20px;
+}
+
+h3 {
+  margin-top: 25px;
+}
+
+/* INPUTS */
+input {
+  width: 90%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+/* BUTTONS */
+button {
+  padding: 10px 15px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+/* USER LIST */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
