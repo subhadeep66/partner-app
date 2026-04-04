@@ -89,6 +89,50 @@ app.get("/users", (req, res) => {
   res.json(users);
 });
 
+app.post("/add-app", auth, (req, res) => {
+  const { name, status, platform, revenue } = req.body;
+
+  const users = JSON.parse(fs.readFileSync("users.json"));
+
+  const user = users.find(u => u.username === req.user.username);
+
+  if (!user.apps) user.apps = [];
+
+  user.apps.push({
+    name,
+    status,
+    platform,
+    revenue
+  });
+
+  fs.writeFileSync("users.json", JSON.stringify(users, null, 2));
+
+  res.json({ success: true });
+});
+
+//campaign
+app.get("/campaigns", (req, res) => {
+  const users = JSON.parse(fs.readFileSync("users.json"));
+
+  let campaigns = [];
+
+  users.forEach(user => {
+    if (user.apps) {
+      user.apps.forEach(app => {
+        campaigns.push({
+          appName: app.name,
+          status: app.status,
+          platform: app.platform,
+          revenue: app.revenue,
+          owner: user.username
+        });
+      });
+    }
+  });
+
+  res.json(campaigns);
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {

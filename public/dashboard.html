@@ -4,10 +4,11 @@
 
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <h2 class="logo">MyApp</h2>
+    <h2 class="logo">InsightBoard</h2>
 
     <ul>
       <li onclick="showSection('campaigns')">Campaigns</li>
+      <li onclick="showSection('addApp')">Add Campaign</li>
       <li onclick="showSection('addPartner')">Add Partner</li>
       <li onclick="showSection('users')">Users</li>
     </ul>
@@ -33,6 +34,22 @@
     <div id="campaigns" class="section" style="display:none;">
      <h2>Campaigns</h2>
      <p>This is where campaigns will appear</p>
+   </div>
+   <div id="addApp" class="section" style="display:none;">
+    <h2>Add Campaign</h2>
+
+    <input id="appName" placeholder="App Name">
+
+    <select id="appStatus">
+     <option value="live">Live</option>
+     <option value="paused">Paused</option>
+     <option value="aspiration">Aspiration</option>
+    </select>
+
+    <input id="platform" placeholder="Platform (Android/iOS)">
+    <input id="revenue" placeholder="Revenue">
+
+    <button onclick="addApp()">Add</button>
    </div>
 
   </div>

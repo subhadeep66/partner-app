@@ -82,5 +82,57 @@ function showSection(sectionId) {
   });
 
   document.getElementById(sectionId).style.display = "block";
+
+  if (sectionId === "campaigns") {
+    loadCampaigns();
+  }
 }
+
 showSection("campaigns");
+
+
+function addApp() {
+  fetch("/add-app", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": localStorage.getItem("token")
+    },
+    body: JSON.stringify({
+      name: document.getElementById("appName").value,
+      status: document.getElementById("appStatus").value,
+      platform: document.getElementById("platform").value,
+      revenue: document.getElementById("revenue").value
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("Campaign added ✅");
+    } else {
+      alert("Error ❌");
+    }
+  });
+}
+
+let allCampaigns = [];
+
+function loadCampaigns() {
+  fetch("/campaigns")
+    .then(res => res.json())
+    .then(data => {
+      allCampaigns = data;
+      renderCampaigns(data);
+    });
+}
+
+function renderCampaigns(data) {
+  const list = document.getElementById("campaignList");
+  list.innerHTML = "";
+
+  data.forEach(c => {
+    const li = document.createElement("li");
+    li.innerText = `${c.appName} | ${c.status} | ${c.owner}`;
+    list.appendChild(li);
+  });
+}
