@@ -54,7 +54,10 @@ app.get("/me", (req, res) => {
   if (currentUser) {
     res.json(currentUser);
   } else {
-    res.status(401).send("Not logged in");
+    return res.status(401).json({
+  success: false,
+  message: "Not logged in"
+  });
   }
 });
 
@@ -64,7 +67,7 @@ app.post("/add-partner", auth, (req, res) => {
    return res.status(403).json({ success: false, message: "Only admin allowed" });
   }
   if (!currentUser || currentUser.role !== "admin") {
-    return res.status(403).send("Unauthorized");
+    return res.status(403).json({ success: false, message: "Unauthorized" });
   }
 
   const { username, password } = req.body;
