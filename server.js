@@ -38,14 +38,14 @@ app.post("/login", (req, res) => {
 function auth(req, res, next) {
   const token = req.headers["authorization"];
 
-  if (!token) return res.status(401).send("No token");
+  if (!token) return res.status(401).json({ success: false, message: "No token" });
 
   try {
     const decoded = jwt.verify(token, SECRET);
     req.user = decoded;
     next();
   } catch {
-    res.status(401).send("Invalid token");
+    res.status(401).json({ success: false, message: "Invalid token" });
   }
 }
 
@@ -61,7 +61,7 @@ app.get("/me", (req, res) => {
 // ADD PARTNER (only admin)
 app.post("/add-partner", auth, (req, res) => {
   if (req.user.role !== "admin") {
-  return res.status(403).send("Only admin allowed");
+   return res.status(403).json({ success: false, message: "Only admin allowed" });
   }
   if (!currentUser || currentUser.role !== "admin") {
     return res.status(403).send("Unauthorized");

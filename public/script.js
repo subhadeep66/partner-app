@@ -33,7 +33,16 @@ function addPartner() {
     })
   })
   .then(res => res.json())
-  .then(() => loadUsers());
+  .then(data => {
+    console.log(data);
+
+    if (!data.success) {
+      alert(data.message);
+      return;
+    }
+
+    loadUsers();
+  });
 }
 
 // LOAD USERS
