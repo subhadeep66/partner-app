@@ -90,6 +90,8 @@ app.get("/users", (req, res) => {
 });
 
 app.post("/add-app", auth, (req, res) => {
+  console.log("REQ.USER:", req.user);
+  console.log("BODY:", req.body);
   const { name, status, platform, revenue } = req.body;
 
   const users = JSON.parse(fs.readFileSync("users.json"));
@@ -108,6 +110,7 @@ app.post("/add-app", auth, (req, res) => {
   fs.writeFileSync("users.json", JSON.stringify(users, null, 2));
 
   res.json({ success: true });
+
 });
 
 //campaign
