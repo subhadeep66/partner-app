@@ -96,7 +96,7 @@ function addApp() {
     method: "POST",
     headers: {
      "Content-Type": "application/json",
-     "Authorization": localStorage.getItem("token") || ""
+     "Authorization": "Bearer " + localStorage.getItem("token")
     },
     body: JSON.stringify({
       name: document.getElementById("appName").value,
