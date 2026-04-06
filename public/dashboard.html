@@ -34,7 +34,19 @@
     <div id="campaigns" class="section" style="display:none;">
      <h2>Campaigns</h2>
      <input id="searchApp" placeholder="Search app..." onkeyup="searchCampaigns()">
-     <ul id="campaignList"></ul>
+     <table id="campaignTable">
+  <thead>
+    <tr>
+      <th>App</th>
+      <th>Status</th>
+      <th>Owner</th>
+      <th>Platform</th>
+      <th>Revenue</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="campaignList"></tbody>
+</table>
     </div>
    <div id="addApp" class="section" style="display:none;">
     <h2>Add Campaign</h2>

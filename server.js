@@ -89,16 +89,36 @@ app.get("/users", (req, res) => {
   res.json(users);
 });
 
+
+//add-app
 app.post("/add-app", auth, (req, res) => {
   console.log("REQ.USER:", req.user);
   console.log("BODY:", req.body);
+
   const { name, status, platform, revenue } = req.body;
 
   const users = JSON.parse(fs.readFileSync("users.json"));
 
   const user = users.find(u => u.username === req.user.username);
 
+  // 🔥 IMPORTANT CHECK
+  if (!user) {
+    return res.json({ success: false, message: "User not found" });
+  }
+
   if (!user.apps) user.apps = [];
+
+  // 🔥 DUPLICATE CHECK
+  const exists = user.apps.find(
+    a => a.name === name && a.platform === platform
+  );
+
+  if (exists) {
+    return res.json({
+      success: false,
+      message: "Campaign already exists for this platform"
+    });
+  }
 
   user.apps.push({
     name,
@@ -110,7 +130,28 @@ app.post("/add-app", auth, (req, res) => {
   fs.writeFileSync("users.json", JSON.stringify(users, null, 2));
 
   res.json({ success: true });
+});
 
+//update campaigns status
+
+app.post("/update-status", auth, (req, res) => {
+  const { name, platform, status } = req.body;
+
+  const users = JSON.parse(fs.readFileSync("users.json"));
+
+  users.forEach(user => {
+    if (user.apps) {
+      user.apps.forEach(app => {
+        if (app.name === name && app.platform === platform) {
+          app.status = status;
+        }
+      });
+    }
+  });
+
+  fs.writeFileSync("users.json", JSON.stringify(users, null, 2));
+
+  res.json({ success: true });
 });
 
 //campaign

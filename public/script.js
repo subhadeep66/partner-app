@@ -131,8 +131,37 @@ function renderCampaigns(data) {
   list.innerHTML = "";
 
   data.forEach(c => {
-    const li = document.createElement("li");
-    li.innerText = `${c.appName} | ${c.status} | ${c.owner}`;
-    list.appendChild(li);
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>${c.appName}</td>
+      <td>${c.status}</td>
+      <td>${c.owner}</td>
+      <td>${c.platform}</td>
+      <td>${c.revenue}</td>
+      <td>
+        <button onclick="updateStatus('${c.appName}', '${c.platform}', 'live')">Live</button>
+        <button onclick="updateStatus('${c.appName}', '${c.platform}', 'paused')">Pause</button>
+      </td>
+    `;
+
+    list.appendChild(row);
+  });
+}
+
+function updateStatus(name, platform, status) {
+  fetch("/update-status", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + localStorage.getItem("token")
+    },
+    body: JSON.stringify({ name, platform, status })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      loadCampaigns();
+    }
   });
 }
